@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.aux
 *.glo
 *.idx
@@ -29,3 +30,37 @@
 *.fls
 *.sta
 /revision.tex
+=======
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.out
+*.pdfsync
+*.ps
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdy
+*.tdo
+>>>>>>> 9c10130588a781231a42df996cd537a8b72f6487
