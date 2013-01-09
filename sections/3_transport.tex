@@ -1,28 +1,7 @@
-\section{IPV4}
-\subsection{Protokoll Typen}
-\begin{tabular}[h]{ll}
-  \textbf{Value} & \textbf{Protocol} \\
-  1 & ICMP \\
-  6 & TCP\\
-  17 & UDP\\
-  41 & IPv6 over IPv4
- \end{tabular}
- \\
- \\
-\includegraphics[scale=0.8]{media/IPHeader.png}
-\subsection{Ports}
-\begin{tabular}[h]{ll}
-  \textbf{Range} & \textbf{Description} \\
-  0...1023 & Well known Ports \\
-  1024...49151 & Registered Ports\\
-  49152...65535 & Ephemeral Ports\\
- \end{tabular}
-\\
-\\ 
-
-Wenn eine TCP Verbindung geschlossen wird verbleibt der Port im Status TIME\_WAIT für eine festgelegte Zeit (üblicherweise ca 120s) und kann nicht wiederverwendet werden.
+\section{Transport Layer}
 
 \subsection{UDP}
+
 \includegraphics[scale=0.8]{media/UDPHeader.png}
 Aufgepasst: Die Checksumme berücksichtigt auch den IP-Header und verletzt somit das Schichten Modell. \\
 Das Längenfeld beinhaltet auch den UDP Header, ist also immer mindestens 8.
@@ -34,7 +13,8 @@ IPHeader = 20 Bytes
 UDPHeader = 8Bytes
 \end{align*}
 
-\subsection{Analyse UDP Stream}
+\subsubsection{Analyse UDP Stream}
+
 \includegraphics[scale=1.0]{media/UDPStream.png}
 
 \textbf{MAC Header}\\
@@ -71,6 +51,7 @@ Data: & hallo chrigi00000000.... (50 Bytes)
 
 
 \subsection{TCP}
+
 \includegraphics[scale=0.8]{media/TCPHeader.png}
 Aufgepasst: Die Checksumme berücksichtigt auch den IP-Header und verletzt somit das Schichten Modell. \\
 \begin{align*}
@@ -79,7 +60,7 @@ MTU = 1500Bytes\\
 IPHeader = 20 Bytes\\
 TCPHeader = min 20Bytes
 \end{align*}
-\subsection{Analyse TCP Stream}
+\subsubsection{Analyse TCP Stream}
 \textbf{Cumulative ACK}\\
 \includegraphics[scale=0.5]{media/cumulativeACK.png}\\
 \textbf{Delayed ACK}\\
@@ -87,7 +68,7 @@ Im Prinzip wie Cumulative ACK. Die ACK Verluste sind aber absichtlich, d.h der E
 1. TCPDelAckTicks: Ist nach Ablauf dieses Timers kein Paket mehr angekommen, sendet er ein kumulatives ACK. \\
 2. TCPAckFrequency: Wurde für die festgelegte Anzahl Pakete kein ACK versendet, sendet er ein kumulatives ACK.\\
 
-\subsection{TCP Flow Control}
+\subsubsection{TCP Flow Control}
 \textbf{Window Size}\\
 Mit dem Receive Window (RWin) gibt der Empfänger dem Sender an, wie viele Bytes der Sender noch schicken darf, ohne ein ACK erhalten zu haben. Receive Window ist die Receive Buffer Grösse des Empfängers.\\
 Das Ziel ist es die Pipe zwischen Sender und Empfänger immer optimal zu füllen, sodass der Sender nicht auf ACK's warten muss. D.h Die Window Size sollte grösse sein als RTT * Bandbreite.\\
@@ -126,42 +107,9 @@ Die Maximalgrösse des TCP Headers ist 40 Bytes, demnach sind maximal 4 Blöcke 
 \textbf{Congestion Window (cwnd) / Slow Start}\\
 Das Congestion Window ist die Flusskontrolle auf Senderseite im Gegensatz zur Window Size welche die Flusskontrolle auf Empfängerseite darstellt. Die CWND Size wird jedoch nicht kommuniziert, sie stellt nur eine lokale Kontrollgrösse dar. Die CWND legt die Anzahl Segmente(MSS wird vom Empfänger mittgeteilt) fest, welche ohne ACK's gesendet werden können. Zu Beginn ist dieser Wert 1 (Slow Start) und wird nach jedem ACK erhöht. Schlussendlich gilt der kleinere Wert $min(cwnd,WindowSize)$ als MaxWin Size und bestimmt wieviele Segmente ohne ACK's höchstens gesendet werden dürfen.
 
-\section{TCPTrace}
+
+\subsubsection{TCPTrace}
 \includegraphics[scale=0.5]{media/tcptraceUpload.png}\\
 Anhand der schnell ansteigenden Sequenznummern ist zu erkennen, dass es sich um einen Upload handelt.\\
 \includegraphics[scale=0.5]{media/tcptraceDownload.png}\\
 Anhand der nur langsam erhöhenden Sequenznummer ist zu erkennen, dass nur sehr wenige Daten versendet werden und es sich somit um einen Download handelt.
-
-\section{Application Layer}
-\includegraphics[scale=0.5]{media/osimodel.png}
-\subsection{DNS}
-Rekursive Abfrage: Server führt alle notwendigen Subqueries zur vollständigen Auflösung aus.\\\\
-Nich-Rekursive Abfrage: Server liefert nur den nächsten zuständigen Name Server. Nach dem Prinzip "Frag einmal dort nach".\\
-\includegraphics[scale=0.8]{media/DNSHeader.png}
-
-\subsection{FTP}
-Aktiv: Der Server baut die Datenkanal-Verbindung zum Client auf\\
-Passiv: Der Client baut die Verbindung für den Datenkanal zum Server auf. Der Server ist nur "listening".\\
-\textbf{Beispiel Verbindung} \\
-USER jonas\\
-PASS jonas\\
-PASV\\
-227: Entering Passive Mode (xxx,xxx,xxx,xxx,y, z)\\
-//Port = 256*y+z\\
-LIST\\
-\\
-\textbf{File Transfer Mode}\\
-Im ASCII Mode werden die CR/LF für die jeweilige Zielplattform konvertiert.
-Im Binary Mode wird nichts konvertiert.
-
-\subsection{HTTP}
-Persistent HTTP: keep-alive Header, TCP Verbindung behalten für mehrere Requests\\
-Conditional Get: \\
-\textbf{ETag:} \\Bei der ersten Anfrage einer Ressource sendet der Server einen für diese Ressource spezifischen ETag-Wert im ETag-Header-Feld, der vom Client zusammen mit der Ressource lokal gespeichert wird. (Abb.1) Bei einer erneuten Anfrage derselben Ressource sendet der Client in dem Header-Feld If-None-Match den zuvor gespeicherten ETag-Wert mit. (Abb.2) Auf der Server-Seite wird nun der gesendete ETag-Wert mit dem aktuellen verglichen und bei Übereinstimmung mit dem Statuscode 304 beantwortet. (Abb.3) Die Daten der Ressource werden in diesem Fall nicht mitgeschickt und der Client verwendet die lokal gespeicherten Daten.\\\\
-\textbf{Headers für Cache Control:}\\
-if-match\\
-if-none-match\\
-if-modified-since\\
-if-range\\\\
-
-
