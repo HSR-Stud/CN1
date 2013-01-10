@@ -1,6 +1,7 @@
 \section{Network Access Layer}
 
 % TODO gigabit, 10gigabit, 40/100gigabit ethernet
+% TODO explain CSMA/CD
 
 \subsection{SDU/PDU}
 
@@ -105,14 +106,30 @@ gekennzeichnet. Die Länge gibt die PDU Länge des LLC Protokolls an.
 \subsection{MAC-Adressen}
 
 Das LSB im ersten Adddress Byte (Most Significant Octet) der Destination Address
-ist das Individual/Group Bit. 0 bedeutet Individual Address, 1 bedeutet
-Multicast/Broadcast Address.
+ist das Individual/Group Bit.
 
-Das zweite Bit ist das Universal/Local Bit. 0 heisst Globally Administered
-Address, 1 heisst Locally Administered Address.
+\begin{tabular}[h]{|l|l|}
+	\hline
+  \textbf{Value} & \textbf{Address Type} \\
+	\hline
+  0 & Individual Address \\
+  1 & Multicast/Broadcast Address \\
+	\hline
+\end{tabular}
+
+Das zweite Bit ist das Universal/Local Bit.
+
+\begin{tabular}[h]{|l|l|}
+	\hline
+  \textbf{Value} & \textbf{Address Type} \\
+	\hline
+  0 & Globally Administered Address \\
+  1 & Locally Administered Address \\
+	\hline
+\end{tabular}
 
 
-\subsection{Collision}
+\subsection{Kollisionen}
 
 Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
 Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
