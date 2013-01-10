@@ -114,6 +114,10 @@ In den Multicast-Adressen steht das X für den Scope. Verfügbare Scopes:
 
 \subsection{ICMP}
 
+\subsubsection{Header}
+
+\includegraphics[width=\textwidth]{media/ICMPRequest.png}
+
 \subsubsection{NAT/PAT}
 
 Da ICMP Pakete keine Ports kennen, muss ein Router seine PAT Tabelle anders
@@ -121,5 +125,3 @@ realisieren. Er verwendet dazu die Sequenznummern der Echo/Reply Pakete. Die Seq
 dienen dazu, eine Antwort einem Request zuzuweisen. Ein Implementationsvariante
 ist, dass der Router anstelle des Ports die Sequenznummer verwendet, oder diese
 einem virtuellen Port zuweist.
-
-\includegraphics[scale=0.8]{media/ICMPRequest.png}
