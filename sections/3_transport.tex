@@ -33,6 +33,23 @@ Aufgepasst: Die Checksumme berücksichtigt auch den IP-Header und verletzt somit
 \end{minipage}
 
 
+\subsubsection{Connection Closing}
+
+\begin{minipage}[t]{.4\linewidth}
+	\vspace{0pt}
+	\includegraphics[width=\textwidth]{media/tcp_connection_closing.png}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}[t]{.5\linewidth}
+	\vspace{0pt}
+	Für die Terminierung einer Verbindung wird ein 4 Way Handshake (FIN, ACK, FIN,
+	ACK) verwendet.
+
+	Alternativ ist es auch möglich, die Verbindung mit einem 3 Way Handshake (FIN,
+	FIN-ACK, ACK) zu schliessen.
+\end{minipage}
+
+
 \subsubsection{Analyse TCP Stream}
 
 \begin{minipage}[t]{0.5\linewidth}
