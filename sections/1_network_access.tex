@@ -81,13 +81,6 @@ Länge eines Bit im Kabel:
 \]
 
 
-\subsection{ADSL}
-
-ADSL läuft auf über die reguläre Telefon-Kupferleitung. Daher kann das
-Frequenzband von 0~kHz bis 30~kHz nicht genutzt werden, da dieses durch das
-Analog-Telefon bereits belegt ist.
-
-
 \subsubsection{MAC-Frame}
 
 Die Minimallänge eines MAC Frames beträgt 64 Bytes, bedingt durch den CSMA/CD
@@ -97,8 +90,9 @@ Die Maximalgrösse beträgt 1500 Bytes Payload + 12 Bytes SA/DA + 2 Bytes LEN/PT
 4 Bytes Checksum = 1518 Bytes an Daten. Hinzu kommen noch 8 Bytes für Preamble
 und SFD.
 
-
-\includegraphics[scale=0.5]{media/MACFrame.png}
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{media/MACFrame.png}
+\end{center}
 
 \textbf{Ethernet II}
 
@@ -131,6 +125,38 @@ Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
 
 Somit hat sich zum einen die Regellage verschoben und es ist noch eine Kehrlage
 hinzugekommen: $\cos (2\pi F_T - F_N)$.
+
+\subsubsection{RTS / CTS}
+
+Das RTS / CTS (Request To Send, Clear To Send) Protokoll wird verwendet, um das
+``Hidden Station Problem'' zu vermindern. Die volle Bezeichnung lautet
+\textit{CSMA/CA RTS/CTS}.
+
+\begin{center}
+	\includegraphics[width=.8\textwidth]{media/rts_cts.png}
+\end{center}
+
+Die Sendestation versucht nach Abwarten von DIFS den Kanal mit einem RTS-Paket
+für eine bestimmte, in dem Paket angegebene Zeit zu belegen. Der Empfänger
+bestätigt dies nach Abwarten von SIFS mit einem CTS-Paket, das ebenfalls eine
+Belegungsdauer für den Kanal enthält.
+
+Alle in dem Übertragungsbereich befindlichen Stationen, die dieses RTS
+empfangen, schweigen solange, bis die vom Empfänger zurückkommende CTS-Antwort
+(clear to send, enthält die Länge des Datenrahmens kopiert aus dem RTS)
+konfliktfrei empfangen wurde und die Sendestation die Daten versandt hat.
+Entsprechend warten alle Empfänger des CTS entsprechend der im CTS stehenden
+Länge.
+
+Falls doch Kollisionen geschehen, wird der binäre exponentielle
+Backoff-Algorithmus verwendet, um die Wartezeit zu berechnen.
+
+
+\subsection{ADSL}
+
+ADSL läuft auf über die reguläre Telefon-Kupferleitung. Daher kann das
+Frequenzband von 0~kHz bis 30~kHz nicht genutzt werden, da dieses durch das
+Analog-Telefon bereits belegt ist.
 
 
 \subsection{MAC-Adressen}
