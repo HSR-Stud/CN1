@@ -13,21 +13,22 @@ PDU = Protokollinformationen (PCI) + SDU
 Layer 1 SDU = Layer 2 PDU
 
 
-\subsection{10Base-T}
+\subsection{Ethernet}
+\subsubsection{10Base-T}
 
-\subsubsection{Wiring}
+\textbf{Wiring}
 
 Transmit (TX) auf Pins 1 und 2\\
 Receive (RX) auf Pins 3 und 6
 
-\subsubsection{Codierung}
+\textbf{Codierung}
 
 Der 10Base-T Standard verwendet Manchester Codierung. Daher ist für 10 Mbit
 Datenübertragungsraten eine effektive Übertragungsrate von 20 Mbit erforderlich,
 weil für die Codierung eines Bits zwei Signale benötigt werden. Die Bitrate ist
 in diesem Fall halb so gross wie die Baudrate.
 
-\subsubsection{Daten}
+\textbf{Daten}
 
 Bitdauer:
 \[
@@ -45,21 +46,20 @@ Länge eines Bits im Kabel:
 \]
 
 
-\subsection{100Base-TX}
+\subsubsection{100Base-TX}
 
-\subsubsection{Wiring}
+\textbf{Wiring}
 
 Transmit (TX) auf Pins 1 und 2\\
 Receive (RX) auf Pins 3 und 6
 
-\subsubsection{Codierung}
+\textbf{Codierung}
 
 Der 100Base-TX Standard verwendet eines sogenanntes 4B5B Encoding
 (Block-Codierung). Jedes 4 Bit Wort wird auf ein 5 Bit Wort abgebildet, so dass
 nie mehr als 3 aufeinander folgende Nullen vorhanden sind. Somit ist eine
 sogenannte Symbolrate/Baudrate von +25\%, also 125 Mbps, notwendig.
 
-% TODO wieso codegewinn / spektrumverkleinerung? explain.
 Um das Übertragene Spektrum zu verkleinern, werden die Bits zusätzlich mittels
 MLT-3 (Multi-Level-Transition) Verfahren codiert.
 
@@ -68,7 +68,7 @@ vorangegangene 4B5B Codierung jedoch schon. Zusätzlich bleiben durch die 4B5B
 Codierung weitere $2^5-2^4=16$ Codes übrig, die zur
 Synchronisation/Signalisierung verwendet werden können.
 
-\subsubsection{Daten}
+\textbf{Daten}
 
 Bitdauer:
 \[
@@ -81,7 +81,14 @@ Länge eines Bit im Kabel:
 \]
 
 
-\subsection{MAC-Frame}
+\subsection{ADSL}
+
+ADSL läuft auf über die reguläre Telefon-Kupferleitung. Daher kann das
+Frequenzband von 0~kHz bis 30~kHz nicht genutzt werden, da dieses durch das
+Analog-Telefon bereits belegt ist.
+
+
+\subsubsection{MAC-Frame}
 
 Die Minimallänge eines MAC Frames beträgt 64 Bytes, bedingt durch den CSMA/CD
 Mechanismus zur Kollisionsdetektion.
@@ -90,17 +97,40 @@ Die Maximalgrösse beträgt 1500 Bytes Payload + 12 Bytes SA/DA + 2 Bytes LEN/PT
 4 Bytes Checksum = 1518 Bytes an Daten. Hinzu kommen noch 8 Bytes für Preamble
 und SFD.
 
+
 \includegraphics[scale=0.5]{media/MACFrame.png}
 
-\subsubsection{Ethernet II}
+\textbf{Ethernet II}
 
 Ethernet II (DIX) Pakete werden durch einen PT grösser als 1500
 (0x05DC) gekennzeichnet. Payloadtype für IP: 0x800, für ARP: 0x806.
 
-\subsubsection{802.3}
+\textbf{802.3}
 
 Ethernet 802.3 Pakete sind durch Angaben im LEN Feld kleiner als 1500
 gekennzeichnet. Die Länge gibt die PDU Länge des LLC Protokolls an.
+
+
+\subsubsection{Kollisionen}
+
+Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
+Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
+Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
+
+
+\subsection{WLAN}
+
+\subsubsection{Amplitudenmodulation}
+
+% TODO unmatched parentheses, add explanations
+\[
+	\cos (2\pi \cdot F_N) \cdot \cos (2\pi \cdot F_T)
+	= \frac{1}{2}(\cos (2\pi \cdot F_T - 2\pi \cdot F_N)
+	+ cos(2\pi \cdot F_T + 2\pi \cdot F_N)
+\]
+
+Somit hat sich zum einen die Regellage verschoben und es ist noch eine Kehrlage
+hinzugekommen: $\cos (2\pi F_T - F_N)$.
 
 
 \subsection{MAC-Adressen}
@@ -127,30 +157,3 @@ Das zweite Bit ist das Universal/Local Bit.
   1 & Locally Administered Address \\
 	\hline
 \end{tabular}
-
-
-\subsection{Kollisionen}
-
-Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
-Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
-Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
-
-
-\subsection{Amplitudenmodulation}
-
-% TODO unmatched parentheses, add explanations
-\[
-	\cos (2\pi \cdot F_N) \cdot \cos (2\pi \cdot F_T)
-	= \frac{1}{2}(\cos (2\pi \cdot F_T - 2\pi \cdot F_N)
-	+ cos(2\pi \cdot F_T + 2\pi \cdot F_N)
-\]
-
-Somit hat sich zum einen die Regellage verschoben und es ist noch eine Kehrlage
-hinzugekommen: $\cos (2\pi F_T - F_N)$.
-
-
-\subsection{ADSL}
-
-ADSL läuft auf über die reguläre Telefon-Kupferleitung. Daher kann das
-Frequenzband von 0~kHz bis 30~kHz nicht genutzt werden, da dieses durch das
-Analog-Telefon bereits belegt ist.
