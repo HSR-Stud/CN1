@@ -170,6 +170,15 @@ einen Upload handelt.
 Anhand der nur langsam erhöhenden Sequenznummer ist zu erkennen, dass nur sehr
 wenige Daten versendet werden und es sich somit um einen Download handelt.
 
+\subsubsection{Vorteile gegenüber UDP}
+
+\begin{enumerate}
+	\item Verbindunsorientierung (SYN/ACK)
+	\item Zuverlässiger Transport (Sequenznummern und Acknowledgements)
+	\item Stauvermeidung (Congestion Window)
+	\item Flusskontrolle (Receive Window Size)
+\end{enumerate}
+
 
 \subsection{UDP}
 
@@ -246,4 +255,3 @@ UDPHeader &= \SI{8}{\byte}
 	Data: & hallo chrigi00000000.... (50 Bytes) \\
 	\hline
 \end{tabular}
-
