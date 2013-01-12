@@ -13,21 +13,22 @@ PDU = Protokollinformationen (PCI) + SDU
 Layer 1 SDU = Layer 2 PDU
 
 
-\subsection{10Base-T}
+\subsection{Ethernet}
+\subsubsection{10Base-T}
 
-\subsubsection{Wiring}
+\textbf{Wiring}
 
 Transmit (TX) auf Pins 1 und 2\\
 Receive (RX) auf Pins 3 und 6
 
-\subsubsection{Codierung}
+\textbf{Codierung}
 
 Der 10Base-T Standard verwendet Manchester Codierung. Daher ist für 10 Mbit
 Datenübertragungsraten eine effektive Übertragungsrate von 20 Mbit erforderlich,
 weil für die Codierung eines Bits zwei Signale benötigt werden. Die Bitrate ist
 in diesem Fall halb so gross wie die Baudrate.
 
-\subsubsection{Daten}
+\textbf{Daten}
 
 Bitdauer:
 \[
@@ -45,21 +46,20 @@ Länge eines Bits im Kabel:
 \]
 
 
-\subsection{100Base-TX}
+\subsubsection{100Base-TX}
 
-\subsubsection{Wiring}
+\textbf{Wiring}
 
 Transmit (TX) auf Pins 1 und 2\\
 Receive (RX) auf Pins 3 und 6
 
-\subsubsection{Codierung}
+\textbf{Codierung}
 
 Der 100Base-TX Standard verwendet eines sogenanntes 4B5B Encoding
 (Block-Codierung). Jedes 4 Bit Wort wird auf ein 5 Bit Wort abgebildet, so dass
 nie mehr als 3 aufeinander folgende Nullen vorhanden sind. Somit ist eine
 sogenannte Symbolrate/Baudrate von +25\%, also 125 Mbps, notwendig.
 
-% TODO wieso codegewinn / spektrumverkleinerung? explain.
 Um das Übertragene Spektrum zu verkleinern, werden die Bits zusätzlich mittels
 MLT-3 (Multi-Level-Transition) Verfahren codiert.
 
@@ -68,7 +68,7 @@ vorangegangene 4B5B Codierung jedoch schon. Zusätzlich bleiben durch die 4B5B
 Codierung weitere $2^5-2^4=16$ Codes übrig, die zur
 Synchronisation/Signalisierung verwendet werden können.
 
-\subsubsection{Daten}
+\textbf{Daten}
 
 Bitdauer:
 \[
@@ -100,7 +100,7 @@ auto & F & F & DM & F & DM & F \\
 \hline 
 \end{tabular} 
 
-\subsection{MAC-Frame}
+\subsubsection{MAC-Frame}
 
 Die Minimallänge eines MAC Frames beträgt 64 Bytes, bedingt durch den CSMA/CD
 Mechanismus zur Kollisionsdetektion.
@@ -109,17 +109,108 @@ Die Maximalgrösse beträgt 1500 Bytes Payload + 12 Bytes SA/DA + 2 Bytes LEN/PT
 4 Bytes Checksum = 1518 Bytes an Daten. Hinzu kommen noch 8 Bytes für Preamble
 und SFD.
 
-\includegraphics[scale=0.5]{media/MACFrame.png}
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{media/MACFrame.png}
+\end{center}
 
-\subsubsection{Ethernet II}
+\textbf{Ethernet II}
 
 Ethernet II (DIX) Pakete werden durch einen PT grösser als 1500
 (0x05DC) gekennzeichnet. Payloadtype für IP: 0x800, für ARP: 0x806.
 
-\subsubsection{802.3}
+\textbf{802.3}
 
 Ethernet 802.3 Pakete sind durch Angaben im LEN Feld kleiner als 1500
 gekennzeichnet. Die Länge gibt die PDU Länge des LLC Protokolls an.
+
+
+\subsubsection{Kollisionen}
+
+Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
+Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
+Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
+
+
+\subsection{WLAN}
+
+\subsubsection{CSMA/CA}
+
+Im Gegensatz zu Ethernet setzt man im Drahtlos-Bereich statt auf Collision
+Detection (CSMA/CD) auf Collision Avoidance (CSMA/CA).
+
+Der Netzadapter ist nicht notwendigerweise Voll-Duplex-fähig. Während einer
+eigenen Übertragung kann das Medium nicht überwacht werden. Deshalb würde eine
+Collision Detection fehlschlagen. Deswegen wurde CSMA/CD zu einem Mechanismus
+weiterentwickelt, der konsequenter dem Prinzip ``listen before talk'' folgt.
+Dadurch lassen sich gleichzeitige Datenübertragungen zwar nicht völlig
+verhindern, aber doch minimieren.
+
+\begin{center}
+	\includegraphics[width=.8\textwidth]{media/csma_ca.png}
+\end{center}
+
+\begin{enumerate}
+	\item Zuerst wird das Medium abgehört (Carrier Sense).
+	\item Ist das Medium für die Dauer eines DIFS (Distributed Coordination
+		Function Interframe Spacing) frei, wird eine Backoffzeit aus dem Contention
+		Window ausgewürfelt und nach Ablauf dieser gesendet.
+	\item Ist das Medium belegt, wird der Backoff bis zum Ablauf des Network
+		Allocation Vectors (NAV) gestoppt, bevor er nach einem weiteren DIFS
+		entsprechend weiter läuft.
+	\item Nach vollständigem Empfang des Paketes wartet der Empfänger ein SIFS
+		(Short Interframe Spacing), bevor das ACK gesendet wird.
+	\item Eine Kollision durch gleichzeitigen Ablauf des Backoffs führt zu einem
+		ACK-Timeout -- nach welchem ein EIFS (Extended Interframe Spacing) gewartet
+		wird bevor sich der gesamte Vorgang wiederholen kann (DIFS $\rightarrow$ BO
+		\ldots).
+\end{enumerate}
+
+Es gilt SIFS < DIFS < EIFS.
+
+
+\subsubsection{RTS / CTS}
+
+Das RTS / CTS (Request To Send, Clear To Send) Protokoll wird verwendet, um das
+``Hidden Station Problem'' zu vermindern. Die volle Bezeichnung lautet
+\textit{CSMA/CA RTS/CTS}.
+
+\begin{center}
+	\includegraphics[width=.8\textwidth]{media/rts_cts.png}
+\end{center}
+
+Die Sendestation versucht nach Abwarten von DIFS den Kanal mit einem RTS-Paket
+für eine bestimmte, in dem Paket angegebene Zeit zu belegen. Der Empfänger
+bestätigt dies nach Abwarten von SIFS mit einem CTS-Paket, das ebenfalls eine
+Belegungsdauer für den Kanal enthält.
+
+Alle in dem Übertragungsbereich befindlichen Stationen, die dieses RTS
+empfangen, schweigen solange, bis die vom Empfänger zurückkommende CTS-Antwort
+(clear to send, enthält die Länge des Datenrahmens kopiert aus dem RTS)
+konfliktfrei empfangen wurde und die Sendestation die Daten versandt hat.
+Entsprechend warten alle Empfänger des CTS entsprechend der im CTS stehenden
+Länge.
+
+Falls doch Kollisionen geschehen, wird der binäre exponentielle
+Backoff-Algorithmus verwendet, um die Wartezeit zu berechnen.
+
+\subsubsection{Amplitudenmodulation}
+
+% TODO unmatched parentheses, add explanations
+\[
+	\cos (2\pi \cdot F_N) \cdot \cos (2\pi \cdot F_T)
+	= \frac{1}{2}(\cos (2\pi \cdot F_T - 2\pi \cdot F_N)
+	+ cos(2\pi \cdot F_T + 2\pi \cdot F_N)
+\]
+
+Somit hat sich zum einen die Regellage verschoben und es ist noch eine Kehrlage
+hinzugekommen: $\cos (2\pi F_T - F_N)$.
+
+
+\subsection{ADSL}
+
+ADSL läuft auf über die reguläre Telefon-Kupferleitung (POTS, Plain Old
+Telephone Service). Daher kann das Frequenzband von 0~kHz bis 30~kHz nicht
+genutzt werden, da dieses durch das Analog-Telefon bereits belegt ist.
 
 
 \subsection{MAC-Adressen}
@@ -147,22 +238,46 @@ Das zweite Bit ist das Universal/Local Bit.
 	\hline
 \end{tabular}
 
-
-\subsection{Kollisionen}
-
-Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
-Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
-Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
+Die ersten drei Byte der MAC-Adresse werden auch als OUI (Organizationally
+Unique Identifier) bezeichnet.
 
 
-\subsection{Amplitudenmodulation}
+\subsection{Switch Forwarding Methoden}
 
-% TODO unmatched parentheses, add explanations
-\[
-	\cos (2\pi \cdot F_N) \cdot \cos (2\pi \cdot F_T)
-	= \frac{1}{2}(\cos (2\pi \cdot F_T - 2\pi \cdot F_N)
-	+ cos(2\pi \cdot F_T + 2\pi \cdot F_N)
-\]
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{media/switch_forwarding.png}
+\end{center}
 
-Somit hat sich zum einen die Regellage verschoben und es ist noch eine Kehrlage
-hinzugekommen: $\cos (2\pi F_T - F_N)$.
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Early-Cut}
+	\begin{itemize}
+		\item Nur nach der Lernphase sinnvoll
+		\item Leitet praktisch alle fehlerhaften Frames weiter
+	\end{itemize}
+\end{minipage}
+\hspace{.1\linewidth}
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Cut-Through}
+	\begin{itemize}
+		\item Liest Quell- und Zieladresse
+		\item Leitet viele fehlerhafte Frames weiter
+	\end{itemize}
+\end{minipage}
+
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Fast-Forward}
+	\begin{itemize}
+		\item Erkennt ``Runts'' (zu kleine Pakete) und Kollisionen
+		\item Kann bestimmte EtherTypen filtern
+	\end{itemize}
+\end{minipage}
+\hspace{.1\linewidth}
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Store-and-Forward}
+	\begin{itemize}
+		\item Erkennt CRC-Fehler
+		\item Kann Filtering aufgrund von Informationen aus höheren OSI-Schichten
+			durchführen
+		\item Aufgrund grösserer Delays nicht für Echtzeitsysteme geeignet
+	\end{itemize}
+\end{minipage}

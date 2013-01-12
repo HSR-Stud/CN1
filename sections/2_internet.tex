@@ -36,6 +36,19 @@ Zeit nicht wiederverwendet werden.
 	\hline
 \end{tabular}
 
+\subsubsection{NAT}
+
+Die Network Address Translation (NAT) bringt folgende Vorteile mit sich:
+
+\begin{itemize}
+	\item \textbf{Sicherheit:} Die internen Rechner sind nicht ohne weiteres von
+		extern errichbar
+	\item \textbf{Anonymität:} Die interne Adressstruktur wird extern nicht
+		bekannt gegeben, gegen aussen ist man nur mit einer allgemeinen Adresse
+		identifizierbar
+	\item \textbf{IPv4 Addressenknappheit:} Man benötigt weniger IP-Adressen
+\end{itemize}
+
 
 \subsection{IPv6}
 
@@ -125,3 +138,11 @@ realisieren. Er verwendet dazu die Sequenznummern der Echo/Reply Pakete. Die Seq
 dienen dazu, eine Antwort einem Request zuzuweisen. Ein Implementationsvariante
 ist, dass der Router anstelle des Ports die Sequenznummer verwendet, oder diese
 einem virtuellen Port zuweist.
+
+
+\subsection{VLANs}
+
+VLANs teilen ein Layer-2 Netzwerk in mehrere Broadcast Domains auf.
+
+Ein VLAN ist zwar ein Layer 2 Konzept, das Switchen/Routen von Paketen zwischen
+zwei VLANs kann jedoch nur auf Layer 3 gemacht werden.
