@@ -218,3 +218,43 @@ Das zweite Bit ist das Universal/Local Bit.
   1 & Locally Administered Address \\
 	\hline
 \end{tabular}
+
+
+\subsection{Switch Forwarding Methoden}
+
+\begin{center}
+	\includegraphics[width=0.8\textwidth]{media/switch_forwarding.png}
+\end{center}
+
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Early-Cut}
+	\begin{itemize}
+		\item Nur nach der Lernphase sinnvoll
+		\item Leitet praktisch alle fehlerhaften Frames weiter
+	\end{itemize}
+\end{minipage}
+\hspace{.1\linewidth}
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Cut-Through}
+	\begin{itemize}
+		\item Liest Quell- und Zieladresse
+		\item Leitet viele fehlerhafte Frames weiter
+	\end{itemize}
+\end{minipage}
+
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Fast-Forward}
+	\begin{itemize}
+		\item Erkennt ``Runts'' (zu kleine Pakete) und Kollisionen
+		\item Kann bestimmte EtherTypen filtern
+	\end{itemize}
+\end{minipage}
+\hspace{.1\linewidth}
+\begin{minipage}[t]{.45\linewidth}
+	\textbf{Store-and-Forward}
+	\begin{itemize}
+		\item Erkennt CRC-Fehler
+		\item Kann Filtering aufgrund von Informationen aus höheren OSI-Schichten
+			durchführen
+	\end{itemize}
+\end{minipage}
