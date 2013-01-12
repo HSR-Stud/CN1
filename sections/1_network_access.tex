@@ -80,6 +80,25 @@ Länge eines Bit im Kabel:
 	\SI{10}{\ns} \cdot \SI{0.2}{\meter\per\ns} = \SI{2}{\meter}
 \]
 
+\subsection{NWay / Autonegotiation}
+Grundsätzlich kann über Autonegotiation nur der Speed erkannt werden. Der Duplex default bei Autonegotiation ist HD.
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+• & auto & 10 HD & 10 FD & 100 HD & 100 FD & 1000 FD \\ 
+\hline 
+auto & F & F & DM & F & DM & F \\ 
+\hline 
+10 HD & F & F & DM & SM & SM & SM \\ 
+\hline 
+10 FD & DM & DM & F & SM & SM & SM \\ 
+\hline 
+100 HD & F & SM & SM & F & DM & SM \\ 
+\hline 
+100 FD & DM & SM & SM & DM & F & SM \\ 
+\hline 
+1000 FD & F & SM & SM & SM & SM & F \\ 
+\hline 
+\end{tabular} 
 
 \subsection{MAC-Frame}
 

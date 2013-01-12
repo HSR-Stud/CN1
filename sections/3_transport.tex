@@ -170,6 +170,9 @@ einen Upload handelt.
 Anhand der nur langsam erhöhenden Sequenznummer ist zu erkennen, dass nur sehr
 wenige Daten versendet werden und es sich somit um einen Download handelt.
 
+\textbf{Wo wurde der Trace aufgezeichnet}\\
+
+Anhand der verstrichenen Zeit zwischen einer Datenpaket-Sequenz und dem dazugehörigen ACK ist zu erkennen, ob der Wireshark Trace auf Client oder Serverseite aufgezeichnet wurde. Wird ein Upload (Server->Client) auf der Clientseite aufgezeichnet, sind die ACK's kaum zu erkennen, da sie gleich nach dem Empfangen (<1ms) abgeschickt werden.
 
 \subsection{UDP}
 
