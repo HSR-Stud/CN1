@@ -7,7 +7,8 @@
 
 \includegraphics[width=\textwidth]{media/TCPHeader.png}
 
-Aufgepasst: Die Checksumme berücksichtigt auch den IP-Header und verletzt somit das Schichten Modell. \\
+Aufgepasst: Die Checksumme berücksichtigt auch den IP-Header und verletzt somit
+das Schichten Modell.
 
 \begin{align*}
 	Maximum Segment Size (MSS) = MTU - IPHeader - TCP Header & = \textrm{1460 Byte}\\
@@ -57,7 +58,7 @@ Aufgepasst: Die Checksumme berücksichtigt auch den IP-Header und verletzt somit
 
 	\vspace{5mm}
 
-	\includegraphics[width=0.9\textwidth]{media/cumulativeACK.png}\\
+	\includegraphics[width=0.9\textwidth]{media/cumulativeACK.png}
 \end{minipage}
 \begin{minipage}[t]{0.5\linewidth}
 	\textbf{Delayed ACK}
@@ -78,14 +79,14 @@ Aufgepasst: Die Checksumme berücksichtigt auch den IP-Header und verletzt somit
 
 \subsubsection{TCP Flow Control}
 
-\textbf{Window Size}\\
+\textbf{Window Size}
 
 Mit dem Receive Window (RWin) gibt der Empfänger dem Sender an, wie viele Bytes
 der Sender noch schicken darf, ohne ein ACK erhalten zu haben. Receive Window
 ist die Receive Buffer Grösse des Empfängers.
 
 Das Ziel ist es die Pipe zwischen Sender und Empfänger immer optimal zu füllen,
-sodass der Sender nicht auf ACK's warten muss. Die Window Size sollte grösse
+sodass der Sender nicht auf ACKs warten muss. Die Window Size sollte grösse
 sein als RTT * Bandbreite.
 
 Schickt der Sender das erste Paket ab, dauert es eine RTT bis er ein ACK
@@ -93,7 +94,7 @@ bekommt. Während dieser Zeit sollte der Sender aber fortlaufend weitere Pakete
 in die Pipe legen dürfen. Oder anders gesagt, die Anzahl Pakete die der Sender
 während einer RTT in die Pipe legen kann ist das BDP (Bandwidth Delay Product).
 Die Window Size sollte optimalerweise mindestens so gross sein wie das BDP, da
-sonst auf ACK's gewartet werden muss.
+sonst auf ACKs gewartet werden muss.
 
 $BDP=RTT \cdot Bandwidth$
 
@@ -120,8 +121,8 @@ gegebener Window Size von 64 KiB und Geschwindigkeit von 1.5 MiBit/s.
 \textbf{Duplicate Acknowledgement}
 
 Der Empfänger sendet ein Dup ACK (Acknowledgment, dass er bereits gesendet hat),
-d.h ein Paket vom Sender muss verloren gegangen sein. Nach 3 Dup ACK's (4
-Identischen ACK's ohne weitere Pakete dazwischen, sendet der Sender das
+d.h ein Paket vom Sender muss verloren gegangen sein. Nach 3 Dup ACKs (4
+Identischen ACKs ohne weitere Pakete dazwischen, sendet der Sender das
 verlorengegangene Paket nochmals.
 
 \textbf{Fast Retransmit}
@@ -152,11 +153,11 @@ verwendet. Somit bleibt nur noch für 3 Blöcke Platz.
 Das Congestion Window ist die Flusskontrolle auf Senderseite im Gegensatz zur
 Window Size welche die Flusskontrolle auf Empfängerseite darstellt. Die CWND
 Size wird jedoch nicht kommuniziert, sie stellt nur eine lokale Kontrollgrösse
-dar. Die CWND legt die Anzahl Segmente fest, welche ohne ACK's gesendet werden
+dar. Die CWND legt die Anzahl Segmente fest, welche ohne ACKs gesendet werden
 können. Die MSS (Maximum Segment Size) wird vom Empfänger mittgeteilt. Zu Beginn
 ist dieser Wert 1 (Slow Start) und wird nach jedem ACK erhöht. Schlussendlich
 gilt der kleinere Wert $min(cwnd,WindowSize)$ als MaxWin Size und bestimmt
-wieviele Segmente ohne ACK's höchstens gesendet werden dürfen.
+wieviele Segmente ohne ACKs höchstens gesendet werden dürfen.
 
 \subsubsection{TCPTrace}
 
@@ -170,9 +171,13 @@ einen Upload handelt.
 Anhand der nur langsam erhöhenden Sequenznummer ist zu erkennen, dass nur sehr
 wenige Daten versendet werden und es sich somit um einen Download handelt.
 
-\textbf{Wo wurde der Trace aufgezeichnet}\\
+\textbf{Wo wurde der Trace aufgezeichnet}
 
-Anhand der verstrichenen Zeit zwischen einer Datenpaket-Sequenz und dem dazugehörigen ACK ist zu erkennen, ob der Wireshark Trace auf Client oder Serverseite aufgezeichnet wurde. Wird ein Upload (Server->Client) auf der Clientseite aufgezeichnet, sind die ACK's kaum zu erkennen, da sie gleich nach dem Empfangen (<1ms) abgeschickt werden.
+Anhand der verstrichenen Zeit zwischen einer Datenpaket-Sequenz und dem
+dazugehörigen ACK ist zu erkennen, ob der Wireshark Trace auf Client oder
+Serverseite aufgezeichnet wurde. Wird ein Upload (Server->Client) auf der
+Clientseite aufgezeichnet, sind die ACKs kaum zu erkennen, da sie gleich nach
+dem Empfangen (<1ms) abgeschickt werden.
 
 \subsubsection{Vorteile gegenüber UDP}
 
