@@ -189,9 +189,9 @@ hinzugekommen: $\cos (2\pi F_T - F_N)$.
 
 \subsection{ADSL}
 
-ADSL läuft auf über die reguläre Telefon-Kupferleitung. Daher kann das
-Frequenzband von 0~kHz bis 30~kHz nicht genutzt werden, da dieses durch das
-Analog-Telefon bereits belegt ist.
+ADSL läuft auf über die reguläre Telefon-Kupferleitung (POTS, Plain Old
+Telephone Service). Daher kann das Frequenzband von 0~kHz bis 30~kHz nicht
+genutzt werden, da dieses durch das Analog-Telefon bereits belegt ist.
 
 
 \subsection{MAC-Adressen}
@@ -218,6 +218,9 @@ Das zweite Bit ist das Universal/Local Bit.
   1 & Locally Administered Address \\
 	\hline
 \end{tabular}
+
+Die ersten drei Byte der MAC-Adresse werden auch als OUI (Organizationally
+Unique Identifier) bezeichnet.
 
 
 \subsection{Switch Forwarding Methoden}
@@ -256,5 +259,6 @@ Das zweite Bit ist das Universal/Local Bit.
 		\item Erkennt CRC-Fehler
 		\item Kann Filtering aufgrund von Informationen aus höheren OSI-Schichten
 			durchführen
+		\item Aufgrund grösserer Delays nicht für Echtzeitsysteme geeignet
 	\end{itemize}
 \end{minipage}
