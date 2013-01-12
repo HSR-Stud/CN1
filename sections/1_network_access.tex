@@ -114,17 +114,40 @@ Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
 
 \subsection{WLAN}
 
-\subsubsection{Amplitudenmodulation}
+\subsubsection{CSMA/CA}
 
-% TODO unmatched parentheses, add explanations
-\[
-	\cos (2\pi \cdot F_N) \cdot \cos (2\pi \cdot F_T)
-	= \frac{1}{2}(\cos (2\pi \cdot F_T - 2\pi \cdot F_N)
-	+ cos(2\pi \cdot F_T + 2\pi \cdot F_N)
-\]
+Im Gegensatz zu Ethernet setzt man im Drahtlos-Bereich statt auf Collision
+Detection (CSMA/CD) auf Collision Avoidance (CSMA/CA).
 
-Somit hat sich zum einen die Regellage verschoben und es ist noch eine Kehrlage
-hinzugekommen: $\cos (2\pi F_T - F_N)$.
+Der Netzadapter ist nicht notwendigerweise Voll-Duplex-fähig. Während einer
+eigenen Übertragung kann das Medium nicht überwacht werden. Deshalb würde eine
+Collision Detection fehlschlagen. Deswegen wurde CSMA/CD zu einem Mechanismus
+weiterentwickelt, der konsequenter dem Prinzip ``listen before talk'' folgt.
+Dadurch lassen sich gleichzeitige Datenübertragungen zwar nicht völlig
+verhindern, aber doch minimieren.
+
+\begin{center}
+	\includegraphics[width=.8\textwidth]{media/csma_ca.png}
+\end{center}
+
+\begin{enumerate}
+	\item Zuerst wird das Medium abgehört (Carrier Sense).
+	\item Ist das Medium für die Dauer eines DIFS (Distributed Coordination
+		Function Interframe Spacing) frei, wird eine Backoffzeit aus dem Contention
+		Window ausgewürfelt und nach Ablauf dieser gesendet.
+	\item Ist das Medium belegt, wird der Backoff bis zum Ablauf des Network
+		Allocation Vectors (NAV) gestoppt, bevor er nach einem weiteren DIFS
+		entsprechend weiter läuft.
+	\item Nach vollständigem Empfang des Paketes wartet der Empfänger ein SIFS
+		(Short Interframe Spacing), bevor das ACK gesendet wird.
+	\item Eine Kollision durch gleichzeitigen Ablauf des Backoffs führt zu einem
+		ACK-Timeout -- nach welchem ein EIFS (Extended Interframe Spacing) gewartet
+		wird bevor sich der gesamte Vorgang wiederholen kann (DIFS $\rightarrow$ BO
+		\ldots).
+\end{enumerate}
+
+Es gilt SIFS < DIFS < EIFS.
+
 
 \subsubsection{RTS / CTS}
 
@@ -150,6 +173,18 @@ Länge.
 
 Falls doch Kollisionen geschehen, wird der binäre exponentielle
 Backoff-Algorithmus verwendet, um die Wartezeit zu berechnen.
+
+\subsubsection{Amplitudenmodulation}
+
+% TODO unmatched parentheses, add explanations
+\[
+	\cos (2\pi \cdot F_N) \cdot \cos (2\pi \cdot F_T)
+	= \frac{1}{2}(\cos (2\pi \cdot F_T - 2\pi \cdot F_N)
+	+ cos(2\pi \cdot F_T + 2\pi \cdot F_N)
+\]
+
+Somit hat sich zum einen die Regellage verschoben und es ist noch eine Kehrlage
+hinzugekommen: $\cos (2\pi F_T - F_N)$.
 
 
 \subsection{ADSL}
