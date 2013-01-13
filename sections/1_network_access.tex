@@ -133,6 +133,41 @@ Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
 
 \subsection{WLAN}
 
+\subsubsection{Pegelwerte und Dezibel}
+Pegelunterschiede in der Regel um mehrere 10er Potenzen unterscheiden, gibt man sie in logarithmischen Massen an.
+
+$Pegeldifferenz [dB] = 10log(P_1/P_0) dB$
+
+Die Multiplikation mit 10 ergibt sich durch die Umformung von Bell nach Dezibell. Da sich die 
+
+$Leistungsverhältnis = 10^(Pegeldifferenz/10)$
+
+Nachfolgend einige nützliche Beispielverhältnisse:
+\begin{tabular}{|c|c|c|}
+\hline 
+\textbf{Leistungsverhältniss} & \textbf{in Dezibell} & \textbf{Berechnung} \\ 
+\hline 
+1 & 0 dB & 10^0=1 \\ 
+\hline 
+10 & 10 dB & 10^1=10 \\ 
+\hline 
+100 & 20 dB & 10^2=100 \\ 
+\hline 
+1000 & 30 dB & 10^3=1000 \\ 
+\hline 
+2 & 3 dB & 10^0.3=2 \\ 
+\hline 
+\end{tabular} 
+Andere Leistungsverhältnisse können leicht davon abgeleitet werden durch eine Multiplikation:
+Leistungsverhältniss 8 = 2\cdot2\cdot2\cdot = 3dB + 3dB + 3dB
+
+Leistungsverhältnisse > 0 sind Verstärkungen, bei Verhältnissen <0 handelt es sich um Dämpfungen.
+\textbf{dBm}
+In der Praxis ist es gebräuchlich auf die Leistung von 1mW Bezug zu nehmen. Dafür verwendet man die Einheit dBm. 
+$20dBm = 10log(100mW/1mW)$
+
+
+
 \subsubsection{CSMA/CA}
 
 Im Gegensatz zu Ethernet setzt man im Drahtlos-Bereich statt auf Collision
