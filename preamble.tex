@@ -18,7 +18,7 @@
 \usepackage{hyperref} % Hyperlinks
 \usepackage{fancyhdr} % Fancy headers
 \usepackage{xfrac} % Split level fractions
-\usepackage{siunitx} % SI units
+\usepackage[version-1-compatibility]{siunitx} % SI units
 \usepackage{multirow} % Span multiple rows in a table
 
 % Font configuration
@@ -39,4 +39,4 @@
 
 % Configure siunitx package
 
-\sisetup{per-mode = symbol-or-fraction}
+\sisetup{per=fraction, alsoload=binary, obeyall}
