@@ -1,7 +1,6 @@
 \section{Network Access Layer}
 
 % TODO gigabit, 10gigabit, 40/100gigabit ethernet
-% TODO explain CSMA/CD
 
 \subsection{SDU/PDU}
 
@@ -14,6 +13,7 @@ Layer 1 SDU = Layer 2 PDU
 
 
 \subsection{Ethernet}
+
 \subsubsection{10Base-T}
 
 \textbf{Wiring}
@@ -80,8 +80,43 @@ Länge eines Bit im Kabel:
 	\SI{10}{\ns} \cdot \SI{0.2}{\meter\per\ns} = \SI{2}{\meter}
 \]
 
-\subsection{NWay / Autonegotiation}
-Grundsätzlich kann über Autonegotiation nur der Speed erkannt werden. Der Duplex default bei Autonegotiation ist HD.
+
+\subsubsection{CSMA/CD}
+
+Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
+Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
+Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
+
+CSMA mit CD (Collision Detection) verwendet folgenden Algorithmus, um eine
+korrekte Übertragung zu ermöglichen:
+
+\textbf{Hauptablauf}
+
+\begin{enumerate}
+	\item Ist das Frame bereit zur Übertragung? Wenn ja, gehe zum nächsten
+		Schritt.
+	\item Ist das Medium frei? Wenn nicht, warte bis es frei ist.
+	\item Beginne Übertragung.
+	\item Gab es eine Kollision? Wenn ja, starte Kollisionsbehandlung.
+	\item Retransmission Counter zurücksetzen und Übertragung beenden.
+\end{enumerate}
+
+\textbf{Kollisionsbehandlung}
+
+\begin{enumerate}
+	\item Jam-Signal aussenden, damit auch andere Stationen die Kollision erkennen.
+	\item Retransmission Counter erhöhen.
+	\item Falls die Maximalanzahl Übertragungsversuche erreicht wurde, abbrechen.
+	\item Zufällige Wartezeit berechnen (Backoff-Algorithmus), warten.
+	\item Hauptablauf erneut beginnen.
+\end{enumerate}
+
+
+\subsubsection{Autonegotiation}
+
+Grundsätzlich kann über Autonegotiation nur der Speed erkannt werden. Der Duplex
+Default bei Autonegotiation ist HD.
+
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline 
 • & auto & 10 HD & 10 FD & 100 HD & 100 FD & 1000 FD \\ 
@@ -99,6 +134,7 @@ auto & F & F & DM & F & DM & F \\
 1000 FD & F & SM & SM & SM & SM & F \\ 
 \hline 
 \end{tabular} 
+
 
 \subsubsection{MAC-Frame}
 
@@ -122,13 +158,6 @@ Ethernet II (DIX) Pakete werden durch einen PT grösser als 1500
 
 Ethernet 802.3 Pakete sind durch Angaben im LEN Feld kleiner als 1500
 gekennzeichnet. Die Länge gibt die PDU Länge des LLC Protokolls an.
-
-
-\subsubsection{Kollisionen}
-
-Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
-Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
-Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
 
 
 \subsection{WLAN}
@@ -203,9 +232,9 @@ verhindern, aber doch minimieren.
 Es gilt SIFS < DIFS < EIFS.
 
 
-\subsubsection{RTS / CTS}
+\subsubsection{RTS/CTS}
 
-Das RTS / CTS (Request To Send, Clear To Send) Protokoll wird verwendet, um das
+Das RTS/CTS (Request To Send, Clear To Send) Protokoll wird verwendet, um das
 ``Hidden Station Problem'' zu vermindern. Die volle Bezeichnung lautet
 \textit{CSMA/CA RTS/CTS}.
 
@@ -227,6 +256,7 @@ Länge.
 
 Falls doch Kollisionen geschehen, wird der binäre exponentielle
 Backoff-Algorithmus verwendet, um die Wartezeit zu berechnen.
+
 
 \subsubsection{Amplitudenmodulation}
 

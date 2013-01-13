@@ -146,3 +146,20 @@ VLANs teilen ein Layer-2 Netzwerk in mehrere Broadcast Domains auf.
 
 Ein VLAN ist zwar ein Layer 2 Konzept, das Switchen/Routen von Paketen zwischen
 zwei VLANs kann jedoch nur auf Layer 3 gemacht werden.
+
+\subsubsection{Tagging}
+
+VLANs können an den Netzwerkgeräten entweder via Zuteilung der Ports
+unterschieden werden, oder via Tagging. Beim Tagging wird im Ethernet Frame
+zwischen der Source MAC und dem EtherType/Length Feld ein 32-Bit Feld für die
+Tag-Informationen eingefügt. Dadurch muss auch die Checksumme (FCS, meist
+CRC-32) neu berechnet werden.
+
+\subsubsection{Trunk Ports / Native VLAN}
+
+Bei vielen Netzwerkgeräten können sogenannte Trunk Ports definiert werden.  Ein
+Trunk Port sendet und empfängt Frames von allen VLANs, ohne dass er Mitglied
+aller VLANs sein muss.
+
+Falls ein Native VLAN definiert wurde, werden alle ungetaggten Frames, die über
+den Trunk Port übertragen werden, als Mitglieder des Native VLANs betrachtet.
