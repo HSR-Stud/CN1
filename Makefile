@@ -3,9 +3,9 @@ TARGET=CN1.pdf
 LL=latexmk -pdf
 CLEAN=latexmk -C
 
-all: revision.tex $(TARGET) refresh
+all: revision.tex contributors.tex $(TARGET) refresh
 
-pdf: revision.tex $(TARGET) refresh
+pdf: revision.tex contributors.tex $(TARGET) refresh
 
 .PHONY : clean revision.tex contributors.tex $(TARGET) refresh mupdf
 
@@ -24,6 +24,7 @@ $(TARGET): $(TARGET:%.pdf=%.tex) $(SRC)
 clean:
 	$(CLEAN)
 	rm -f revision.tex
+	rm -f contributors.tex
 
 refresh:
 	-killall -HUP mupdf ||  echo "Mupdf not started, no refreshing."
