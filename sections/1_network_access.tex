@@ -83,9 +83,11 @@ Länge eines Bit im Kabel:
 
 \subsubsection{CSMA/CD}
 
-Kollisionen könnnen nur in Half-Duplex-Mode Übertragungen auftreten. Im
-Full-Duplex-Mode werden zwei separate Adernpaare zum Senden und Empfangen der
-Daten verwendet, Kollisionen können so physikalisch nicht auftreten.
+Kollisionen könnnen bei Verwendung von TP-Kabeln nur in Half-Duplex-Mode
+Übertragungen auftreten. Im Full-Duplex-Mode werden zwei separate Aderpaare zum
+Senden und Empfangen der Daten verwendet, Kollisionen können so physikalisch
+nicht auftreten. Kollisionserkennung wird heute also eigentlich nur noch in
+Legacy-Netzwerken genutzt.
 
 CSMA mit CD (Collision Detection) verwendet folgenden Algorithmus, um eine
 korrekte Übertragung zu ermöglichen:
@@ -118,22 +120,24 @@ Grundsätzlich kann über Autonegotiation nur der Speed erkannt werden. Der Dupl
 Default bei Autonegotiation ist HD.
 
 \begin{tabular}{|c|c|c|c|c|c|c|}
-\hline 
-• & auto & 10 HD & 10 FD & 100 HD & 100 FD & 1000 FD \\ 
-\hline 
-auto & F & F & DM & F & DM & F \\ 
-\hline 
-10 HD & F & F & DM & SM & SM & SM \\ 
-\hline 
-10 FD & DM & DM & F & SM & SM & SM \\ 
-\hline 
-100 HD & F & SM & SM & F & DM & SM \\ 
-\hline 
-100 FD & DM & SM & SM & DM & F & SM \\ 
-\hline 
-1000 FD & F & SM & SM & SM & SM & F \\ 
-\hline 
-\end{tabular} 
+\hline
+• & auto & 10 HD & 10 FD & 100 HD & 100 FD & 1000 FD \\
+\hline
+auto & ok & ok & DM & ok & DM & ok \\
+\hline
+10 HD & ok & ok & DM & SM & SM & SM \\
+\hline
+10 FD & DM & DM & ok & SM & SM & SM \\
+\hline
+100 HD & ok & SM & SM & ok & DM & SM \\
+\hline
+100 FD & DM & SM & SM & DM & ok & SM \\
+\hline
+1000 FD & ok & SM & SM & SM & SM & ok \\
+\hline
+\end{tabular}
+
+DM = Duplex Mismatch, SM = Speed Mismatch.
 
 
 \subsubsection{MAC-Frame}
