@@ -103,16 +103,16 @@ sonst auf ACKs gewartet werden muss.
 Beispiel Kommunikation nach Thailand:
 \begin{align*}
 	& RWin \geq BDP \\
-	& BDP = \SI{5000}{\kibi\bit\per\second} \cdot \SI{.3}{\second} = \SI{1500}{\kibi\bit} = \SI{187.5}{\kibi\byte}
+	& BDP = \SI{5000}{\kilo\bit\per\second} \cdot \SI{.3}{\second} = \SI{1500}{\kilo\bit} = \SI{187.5}{\kilo\byte}
 \end{align*}
 
 \textbf{Maximale Distanzen}
 
 Nachfolgend ein Beispiel für die Maximale Distanz (Füllung der Pipe) bei
-gegebener Window Size von 64 KiB und Geschwindigkeit von 1.5 MiBit/s.
+gegebener Window Size von 64 KB und Geschwindigkeit von 1.5 MBit/s.
 \begin{align*}
 	& RTT = \frac{RWin}{R_{max}} \\
-	& \frac{\SI{64}{\kibi\byte} \cdot \SI[per=slash]{8}{\bit\per\byte} \cdot \SI[per=slash]{1024}{\bit\per\kibi\byte}}{\SI[per=slash]{1.5}{\mebi\bit\per\second}} = \SI{.35}{s} \\
+	& \frac{\SI{64}{\kilo\byte} \cdot \SI[per=slash]{8}{\bit\per\byte} \cdot \SI[per=slash]{1024}{\bit\per\kilo\byte}}{\SI[per=slash]{1.5}{\mebi\bit\per\second}} = \SI{.35}{s} \\
 	& Distance = v \cdot t =\left(\frac{2}{3} \cdot \SI{300000}{\kilo\meter\per\second}\right)\cdot \SI{.35}{s} = \SI{70000}{\kilo\meter}
 \end{align*}
 
