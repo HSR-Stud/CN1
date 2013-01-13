@@ -171,7 +171,7 @@ gekennzeichnet. Die Länge gibt die PDU Länge des LLC Protokolls an.
 Da sich die Pegelunterschiede in der Regel um mehrere 10er Potenzen unterscheiden,
 gibt man sie in logarithmischen Massen an.
 \[
-	\textrm{Pegeldifferenz} = 10 \log (P_1/P_0)~\si{\decibel}
+	\textrm{Pegeldifferenz} = 10 \log (P_1/P_0)~\textrm{dB}
 \]
 Die Multiplikation mit 10 ergibt sich durch die Umformung von Bel nach Dezibel.
 \[
@@ -197,14 +197,14 @@ Nachfolgend einige nützliche Beispielverhältnisse:
 
 Andere Leistungsverhältnisse können leicht davon abgeleitet werden durch eine Multiplikation:
 \[
-	\textrm{Leistungsverhältnis}~8 = 2 \cdot 2 \cdot 2 = \SI{3}{\decibel} + \SI{3}{\decibel} + \SI{3}{\decibel}
+	\textrm{Leistungsverhältnis}~8 = 2 \cdot 2 \cdot 2 = 3~\textrm{dB} + 3~\textrm{dB} + 3~\textrm{dB}
 \]
 Leistungsverhältnisse > 0 sind Verstärkungen, bei Verhältnissen < 0 handelt es sich um Dämpfungen.
 
 In der Praxis ist es gebräuchlich auf die Leistung von 1 mW Bezug zu nehmen.
 Dafür verwendet man die Einheit dBm.
 \[
-	\SI{20}{\decibel m} = 10 \log (\SI{100}{\milli\watt}/\SI{1}{\milli\watt})
+	20~\textrm{dBm} = 10 \log (\SI{100}{\milli\watt}/\SI{1}{\milli\watt})
 \]
 
 
